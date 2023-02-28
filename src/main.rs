@@ -43,13 +43,6 @@ fn main() {
     return
   }
 
-  let xdotool = Command::new("xdotool")
-    .arg("getactivewindow")
-    .output()
-    .unwrap();
-
-  let window_id = String::from_utf8_lossy(&xdotool.stdout);
-
   let mut rf = rofi::create();
   rf = rofi::set_content(rf, &final_otps.join("\n"));
 
@@ -66,14 +59,7 @@ fn main() {
       .output()
       .unwrap();
 
-    let mut _xdo = Command::new("xdotool")
-      .arg("windowactivate")
-      .arg(window_id.to_string())
-      .output()
-      .unwrap();
-
-    let mut _type = Command::new("xdotool")
-      .arg("type")
+    let mut _type = Command::new("wtype")
       .arg(otp)
       .output()
       .unwrap();

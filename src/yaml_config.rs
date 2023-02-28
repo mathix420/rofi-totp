@@ -9,18 +9,18 @@ pub fn get_list() -> Result<Vec<std::string::String>, String> {
 
   let mut final_otps : Vec<std::string::String> = Vec::new();
   
-  let home_dir = match dir::home() {
+  let config_dir = match dir::dot_config() {
     Some(home) => home,
     None => {
-      return Err(String::from("Can't find the HOME directory"));
+      return Err(String::from("Can't find the default config directory"));
     }
   };
 
-  let config_path = home_dir.join(".config").join("rofi-totp").join("2fa.yml");
+  let config_path = config_dir.join("2fa.yml");
 
   let mut config_file = match File::open(&config_path) {
     Err(_) => {
-      return Err(String::from("Make sure you have created the following config file ~/.config/rofi-totp/2fa.yml"));
+      return Err(format!("Make sure you have created the following config file {}", config_path.to_str().unwrap().to_string()));
     }
     Ok(file) => file,
   };
